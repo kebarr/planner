@@ -6,6 +6,11 @@ Planning tool designed for agile teams working in iterations with third parties
 TORG use this tool. You can find TORG at torg.thetestpeople.com.
 
 ## Up and Running
+Development depends on:
+* Phantomjs
+* Python 2.7
+
+Everything else is managed by paver.
 
 ### Local Virtual Env Managed by Paver
 You will require paver and virtualenv globally in your system Python. On first run use paver once to establish the repo. Then use paver commands as needed. A good place to start is paver ci.
