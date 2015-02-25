@@ -10,3 +10,9 @@ canvas {
 textarea.form-control {
      height: 150px;
 }
+
+
+label, input {
+    display: block;
+    margin-top: 10px;
+}

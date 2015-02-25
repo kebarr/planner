@@ -1,8 +1,10 @@
 {% extends "base.html" %}
-{% from "macros.html" import render_form %}
 {% block content %}
 <div class="container">
   <h3>Add Contact</h3>
-  {{ render_form(form, action_url=url_for('add_contact', client_id=client_id)) }}
+  {# removed action url as specified in javascript #}
+  {# {{ render_form("add_contact", client_id=client_id) }}#}
+
+  <form id="add_contact" client_id="id"></form>
 </div>
 {% endblock %}
