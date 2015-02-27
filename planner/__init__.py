@@ -61,16 +61,26 @@ def add_client():
 
 
 @ui.route('/clients/1/new')
-#@ui.route('/clients/{{client_id}}/new')
+#@ui.route('/clients/{{client_id}}/new') - will have to wire in client id later, need client page
 @ui.route('/clients/1/new')
 @feature
-def add_contact():
-    contact = to_dict(Contact(clientid=1))
+def add_contact(client_id=1):
+    contact = to_dict(Contact(clientid=client_id))
     form_data = convert_client_dict_form_json(contact)
     with open("planner/static/add_contact_form.json", 'w') as f:
         json.dump(form_data, f)
     return render_template('add-contact.html')
 
+
+# just get data posted first, save to db later
+@api.route('/clients/1/add', methods=["POST"])
+def save_new_contact():
+    data = request.get_json()
+    with open("look.json", 'w') as f:
+        json.dump(data, f)
+    # will need to transform data here i imagine
+    contact = to_model(data)
+    return render_template("client.html")
 
 @api.route('/api/schedule/iteration-for-engagement')
 @feature
