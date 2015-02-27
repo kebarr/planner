@@ -37,8 +37,8 @@ class Engagement(Base):
 
     expenses = relationship("Expense")
 
-    actualiterations = relationship("EngagementIteration")
-    estimatediterations = relationship("EstimatedEngagementIteration")
+    #actualiterations = relationship("EngagementIteration")
+    #estimatediterations = relationship("EstimatedEngagementIteration")
 
 
 class Expense(Base):
@@ -126,3 +126,25 @@ class Complexity(Base):
         if address not in [0.1, 0.5, 1.0, 2.0]:
             raise ValidationError(str(address) + ' is invalid')
         return address
+
+
+
+class EngagementIteration(Base):
+    __tablename__ = 'EngagementIteration'
+    engagementid = Column(Integer, ForeignKey('Engagement.id'),
+                          primary_key=True)
+    iterationid = Column(Integer, ForeignKey('Iteration.id'), primary_key=True)
+
+    engagement = relationship("Engagement")
+    iteration = relationship("Iteration")
+
+
+class EstimatedEngagementIteration(Base):
+    __tablename__ = 'EstimatedEngagementIteration'
+    engagementid = Column(Integer, ForeignKey('Engagement.id'),
+                          primary_key=True)
+    iterationid = Column(Integer, ForeignKey('Iteration.id'),
+                         primary_key=True)
+
+    engagement = relationship("Engagement")
+    iteration = relationship("Iteration")

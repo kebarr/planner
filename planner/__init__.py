@@ -1,12 +1,16 @@
-from flask import Flask, abort, current_app, render_template, Blueprint
+from flask import Flask, abort, current_app, render_template, Blueprint, request
 
 from planner.model.connect import TransactionFactory
+from planner.model.client import Contact
+from planner.model.translate import to_dict
 from planner.flags import Flag
 from planner.config import HeadConfig
+from planner.add_contact import convert_client_dict_form_json # need to discuss file structure with james
 
+import json
 
-ui = Blueprint('views', __name__, template_folder="templates")
-api = Blueprint('api', __name__, template_folder="templates")
+ui = Blueprint('views', __name__, template_folder='templates')
+api = Blueprint('api', __name__, template_folder='templates')
 feature = Flag(lambda: abort(404), config=lambda: current_app.config)
 
 
@@ -45,15 +49,26 @@ def clients():
     return render_template("clients.html")
 
 
+@ui.route('/clients/{{client.id}}')
+@feature
+def client(client_id):
+    return render_template("client.html")
+
 @ui.route('/add-client')
 @feature
 def add_client():
     return render_template("add-client.html")
 
 
-@ui.route('/add-contact')
+@ui.route('/clients/1/new')
+#@ui.route('/clients/{{client_id}}/new')
+@ui.route('/clients/1/new')
 @feature
 def add_contact():
+    contact = to_dict(Contact(clientid=1))
+    form_data = convert_client_dict_form_json(contact)
+    with open("planner/static/add_contact_form.json", 'w') as f:
+        json.dump(form_data, f)
     return render_template('add-contact.html')
 
 
@@ -61,3 +76,9 @@ def add_contact():
 @feature
 def schedule_iteration_for_engagement(self):
     pass
+
+
+#@api.route('/api/add-contact', methods=['POST'])
+#def create_json_with_client_id():
+#    client_id = request.data
+#    return None
