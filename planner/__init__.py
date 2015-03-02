@@ -90,6 +90,8 @@ def add_contact(client_id=1):
 def save_new_contact():
     form_data = request.form
     contact = to_model(form_data, planner.model.client)
+    with current_app.transaction() as transaction:
+        transaction.add(contact)
     return render_template("clients.html")
 
 
