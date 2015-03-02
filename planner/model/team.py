@@ -35,7 +35,7 @@ class TeamMember(Base):
     def validate_title(self, key, address):
         if address not in ['Mr', 'Miss', 'Dr', 'Mrs']:
             raise ValidationError(
-                    str(address) + " is not an appropriate title")
+                str(address) + " is not an appropriate title")
         return address
 
     @validates('gmail')
