@@ -1,6 +1,6 @@
 def convert_client_dict_form_json(client_dict):
     contact_keys = client_dict.keys()
-    form_data = {"action": "/clients/1/add",
+    form_data = {"action": "/clients/%d/add" % (client_dict["clientid"]),
                  "method": "post", "html": []}
     keys_to_exclude = ["clientid", "entity", "id"]
     for key in contact_keys:

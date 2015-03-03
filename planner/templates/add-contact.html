@@ -5,6 +5,6 @@
   {# removed action url as specified in javascript #}
   {# {{ render_form("add_contact", client_id=client_id) }}#}
 
-  <form id="add_contact" client_id="id" enctype="application/json"></form>
+  <form id="add_contact" client_id="{{clientid}}" enctype="application/json"></form>
 </div>
 {% endblock %}
