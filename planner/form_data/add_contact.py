@@ -1,4 +1,5 @@
 def convert_client_dict_form_json(client_dict):
+    print 'function_called with id %s' % (client_dict["clientid"])
     contact_keys = client_dict.keys()
     form_data = {"action": "/clients/%d/add" % (client_dict["clientid"]),
                  "method": "post", "html": []}
@@ -16,9 +17,6 @@ def convert_client_dict_form_json(client_dict):
     form_data["html"].append({"type": "hidden",
                               "value": "Contact",
                               "name": "entity"})
-    form_data["html"].append({"type": "hidden",
-                              "value": client_dict["clientid"],
-                              "name": "clientid"})
     return form_data
 
 

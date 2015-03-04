@@ -2,6 +2,7 @@ from flask import (Flask, abort, current_app, render_template,
                    Blueprint, request)
 
 import datetime
+import time
 import planner
 from planner.model import Base
 from planner.model.connect import TransactionFactory
@@ -11,8 +12,8 @@ from planner.model.engagement import Engagement
 from planner.model.translate import to_dict, to_model
 from planner.flags import Flag
 from planner.config import HeadConfig
-from planner.add_contact import convert_client_dict_form_json
-from planner.add_iteration import convert_iteration_dict_form_json
+from planner.form_data.add_contact import convert_client_dict_form_json
+from planner.form_data.add_iteration import convert_iteration_dict_form_json
 import json
 
 ui = Blueprint('views', __name__, template_folder='templates')
@@ -57,7 +58,6 @@ def add_engagement():
 def clients():
     with current_app.transaction() as transaction:
         clients = transaction.query(Client).all()
-    client_dicts = [to_dict(client) for client in clients]
     return render_template("clients.html", clients=clients)
 
 
@@ -80,8 +80,8 @@ def add_client():
 @ui.route('/add-iteration')
 @feature
 def add_iteration():
-    iteration_model = Iteration()
-    iteration = to_dict(iteration_model)
+    # currently no point doing like this
+    # but as we add things to iterations, may be more useful
     form_data = convert_iteration_dict_form_json()
     with open("planner/static/add_iteration_form.json", 'w') as f:
         json.dump(form_data, f)
@@ -107,11 +107,15 @@ def save_new_iteration():
 @ui.route('/clients/<int:client_id>/new')
 @feature
 def add_contact(client_id):
+    print client_id
     contact = to_dict(Contact(clientid=client_id))
     form_data = convert_client_dict_form_json(contact)
-    with open("planner/static/add_contact_form.json", 'w') as f:
+    filename = "planner/static/add_contact_form_%d.json" % (client_id)
+    print filename
+    with open(filename, 'w') as f:
         json.dump(form_data, f)
     print client_id
+    time.sleep(1)
     return render_template('add-contact.html', clientid=client_id)
 
 
