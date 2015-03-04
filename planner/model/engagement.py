@@ -2,7 +2,8 @@ from sqlalchemy import Column, Float, Integer, Text, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, validates
 
 from planner.model import Base, ValidationError
-
+from planner.model.team import Team
+from planner.model.client import Client
 
 class Engagement(Base):
     __tablename__ = 'Engagement'
@@ -37,8 +38,8 @@ class Engagement(Base):
 
     expenses = relationship("Expense")
 
-    #actualiterations = relationship("EngagementIteration")
-    #estimatediterations = relationship("EstimatedEngagementIteration")
+    actualiterations = relationship("EngagementIteration")
+    estimatediterations = relationship("EstimatedEngagementIteration")
 
 
 class Expense(Base):

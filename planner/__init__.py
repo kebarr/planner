@@ -3,9 +3,11 @@ from flask import (Flask, abort, current_app, render_template,
 
 import datetime
 import planner
+from planner.model import Base
 from planner.model.connect import TransactionFactory
 from planner.model.client import Client, Contact
 from planner.model.iteration import Iteration
+from planner.model.engagement import Engagement
 from planner.model.translate import to_dict, to_model
 from planner.flags import Flag
 from planner.config import HeadConfig
@@ -38,7 +40,10 @@ def index():
 @ui.route('/schedule')
 @feature
 def schedule():
-    return render_template('schedule.html')
+    with current_app.transaction() as transaction:
+        iterations = transaction.query(Iteration).all()
+        #engagements = transaction.query(Engagement).all()
+    return render_template('schedule.html', iterations=iterations)#, engagements=engagements)
 
 
 @ui.route('/add-engagement')
@@ -75,23 +80,27 @@ def add_client():
 @ui.route('/add-iteration')
 @feature
 def add_iteration():
-    iteration_model = Iteration(id=1)
+    iteration_model = Iteration()
     iteration = to_dict(iteration_model)
-    form_data = convert_iteration_dict_form_json(iteration_model.id)
+    form_data = convert_iteration_dict_form_json()
     with open("planner/static/add_iteration_form.json", 'w') as f:
         json.dump(form_data, f)
     return render_template("add-iteration.html")
+
 
 @api.route('/iteration/new', methods=["POST"])
 def save_new_iteration():
     form_data = request.form
     iteration = to_model(form_data, planner.model.iteration)
     date_string = "".join(iteration.startdate.split("/"))
-    iteration.startdate = datetime.datetime.strptime(date_string,
-                                                     "%d%m%Y")
+    try:
+        iteration.startdate = datetime.datetime.strptime(date_string,
+                                                         "%d%m%Y")
+    except ValueError:
+        return render_template("add_iteration_validation_error.html")
     with current_app.transaction() as transaction:
         transaction.add(iteration)
-    return render_template("add-iteration.html")
+    return schedule()
 
 
 
@@ -102,10 +111,10 @@ def add_contact(client_id):
     form_data = convert_client_dict_form_json(contact)
     with open("planner/static/add_contact_form.json", 'w') as f:
         json.dump(form_data, f)
+    print client_id
     return render_template('add-contact.html', clientid=client_id)
 
 
-# just get data posted first, save to db later
 @api.route('/clients/<int:client_id>/add', methods=["POST"])
 def save_new_contact(client_id):
     form_data = request.form

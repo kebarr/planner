@@ -1,10 +1,7 @@
-def convert_iteration_dict_form_json(iteration_id):
+def convert_iteration_dict_form_json():
     form_data = {"action": "/iteration/new",
                  "method": "post",
-                 "html": [{"type": "hidden",
-                          "value": iteration_id,
-                          "name": "id"},
-                          {"type": "text",
+                 "html": [{"type": "text",
                            "caption": "Start Date",
                            "name": "startdate"},
                           {"type": "submit",
@@ -13,3 +10,9 @@ def convert_iteration_dict_form_json(iteration_id):
                               "value": "Iteration",
                               "name": "entity"})
     return form_data
+
+
+
+#{"type": "hidden",
+#                          "value": iteration_id,
+#                          "name": "id"},

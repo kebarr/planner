@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% for client in clients|slice(1)%}
   <h2>{{client.name}} Contacts</h2>
-  {% endfor %}
   </br>
   <div>
-    <a href="/clients/{{client.id}}/new">Add a contact</a>
+    <a href="/clients/{{client.id}}/new">Add a contact for {{client.name}}</a>
   </div>
   </br>
   <div class="container">
