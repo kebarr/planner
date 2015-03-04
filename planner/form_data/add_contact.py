@@ -27,7 +27,6 @@ def format_key_for_form_caption(key):
     splits = ["no", "number", "code"]
     if any(string in key for string in splits):
         split_on = [string for string in splits if string in key][0]
-        print split_on
         print key.split(split_on)
         key = " ".join(key.split(split_on)) + split_on
     if key == "streetname":

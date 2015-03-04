@@ -2,13 +2,12 @@ from flask import (Flask, abort, current_app, render_template,
                    Blueprint, request)
 
 import datetime
-import time
+
 import planner
 from planner.model import Base
 from planner.model.connect import TransactionFactory
 from planner.model.client import Client, Contact
 from planner.model.iteration import Iteration
-from planner.model.engagement import Engagement
 from planner.model.translate import to_dict, to_model
 from planner.flags import Flag
 from planner.config import HeadConfig
@@ -43,8 +42,8 @@ def index():
 def schedule():
     with current_app.transaction() as transaction:
         iterations = transaction.query(Iteration).all()
-        #engagements = transaction.query(Engagement).all()
-    return render_template('schedule.html', iterations=iterations)#, engagements=engagements)
+        #  engagements = transaction.query(Engagement).all()
+    return render_template('schedule.html', iterations=iterations)
 
 
 @ui.route('/add-engagement')
@@ -103,19 +102,14 @@ def save_new_iteration():
     return schedule()
 
 
-
 @ui.route('/clients/<int:client_id>/new')
 @feature
 def add_contact(client_id):
-    print client_id
     contact = to_dict(Contact(clientid=client_id))
     form_data = convert_client_dict_form_json(contact)
     filename = "planner/static/add_contact_form_%d.json" % (client_id)
-    print filename
     with open(filename, 'w') as f:
         json.dump(form_data, f)
-    print client_id
-    time.sleep(1)
     return render_template('add-contact.html', clientid=client_id)
 
 

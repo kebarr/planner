@@ -15,8 +15,8 @@
         <p><b>Surname: </b>{{contact.surname}}</p>
         <p><b>Role: </b>{{contact.role}}</p>
         <p><b>Email: </b><a href="mailto:{{contact.email}}">{{contact.email}}</a></p>
-        <p><b>Mobile: </b><a href="tel:{{contact.mobilenumber}}">{{contact.mobilenumber}}</a></p>
-        <p><b>Landline: </b><a href="tel:{{contact.landlinenumber}}">{{contact.landlinenumber}}</a></p>
+        <p><b>Mobile: </b><a href="tel:{{contact.mobilenumber}}">{{contact.mobileno}}</a></p>
+        <p><b>Landline: </b><a href="tel:{{contact.landlinenumber}}">{{contact.landlineno}}</a></p>
         <p><b>Address: </b><a href="https://maps.google.com?q={{contact.address}}">{{contact.address|replace("\n", "<br>")|safe}}</a></p>
       </div>
     {% endfor %}
