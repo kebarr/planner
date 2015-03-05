@@ -126,6 +126,7 @@ def jslint():
     """Run linting on javascript
     """
     files = recursive_glob('*.js', 'scripts', 'planner/static', 'test')
+    files.remove('planner/static/jquery.dform-1.1.0.min.js')
     return sh('phantomjs scripts/jslintrunner.js ' + ' '.join(files))
 
 

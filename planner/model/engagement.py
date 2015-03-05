@@ -2,8 +2,7 @@ from sqlalchemy import Column, Float, Integer, Text, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, validates
 
 from planner.model import Base, ValidationError
-from planner.model.team import Team
-from planner.model.client import Client
+
 
 class Engagement(Base):
     __tablename__ = 'Engagement'

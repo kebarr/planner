@@ -10,9 +10,3 @@ def convert_iteration_dict_form_json():
                               "value": "Iteration",
                               "name": "entity"})
     return form_data
-
-
-
-#{"type": "hidden",
-#                          "value": iteration_id,
-#                          "name": "id"},

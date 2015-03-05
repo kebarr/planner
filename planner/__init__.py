@@ -4,7 +4,6 @@ from flask import (Flask, abort, current_app, render_template,
 import datetime
 
 import planner
-from planner.model import Base
 from planner.model.connect import TransactionFactory
 from planner.model.client import Client, Contact
 from planner.model.iteration import Iteration

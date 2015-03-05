@@ -38,8 +38,8 @@ def format_key_for_form_caption(key):
 def order_html_elements(list_of_form_fields):
     ordered_list = []
     names = [entry for entry in list_of_form_fields
-             if "name" in entry["name"]
-             and "street" not in entry["name"]]
+             if "name" in entry["name"] and
+             "street" not in entry["name"]]
     ordered_list.extend(names)
     role = get_specific_entry(list_of_form_fields, "role")
     ordered_list.extend(role)
