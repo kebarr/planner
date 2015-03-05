@@ -74,13 +74,9 @@ def add_client():
     return render_template("add-client.html")
 
 
-# eventually need the add_iteration.py script to check next id,
-# save that as hidden element and pass in
 @ui.route('/add-iteration')
 @feature
 def add_iteration():
-    # currently no point doing like this
-    # but as we add things to iterations, may be more useful
     form_data = convert_iteration_dict_form_json()
     with open("planner/static/add_iteration_form.json", 'w') as f:
         json.dump(form_data, f)
@@ -119,8 +115,7 @@ def save_new_contact(client_id):
     contact = to_model(form_data, planner.model.client)
     with current_app.transaction() as transaction:
         transaction.add(contact)
-        client = transaction.query(Client).get(client_id)
-    return render_template("contacts.html", client=client)
+    return client(client_id)
 
 
 @api.route('/api/schedule/iteration-for-engagement')
