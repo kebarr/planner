@@ -1,11 +1,10 @@
 import datetime
 
 from test import ModelTestCase
-from planner.model import EngagementIteration, EstimatedEngagementIteration
 from planner.model.iteration import Iteration
 from planner.model.engagement import (
     Engagement, Status, Complexity, Probability, Alignment, Sustainability,
-    Expense, ExpenseType
+    Expense, ExpenseType, EngagementIteration, EstimatedEngagementIteration
 )
 from planner.model.team import Team, Cost, CostType, TeamMember
 from planner.model.client import Client, Contact
